@@ -1,5 +1,5 @@
-FROM ubuntu:14.04
-MAINTAINER Joe Brown <jbrown@weeby.co>
+FROM resin/rpi-raspbian:wheezy
+MAINTAINER Jan Harries <jph@jph.me>
 
 RUN apt-get update
 
