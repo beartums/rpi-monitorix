@@ -17,4 +17,4 @@ RUN chmod +x /launch.sh
 
 ENTRYPOINT /launch.sh
 
-CMD ["bash"]
+CMD service monitorix restart && tail -F /var/log/monitorix
