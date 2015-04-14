@@ -10,7 +10,7 @@ This container enables you to start a monitoring webinterface on your Raspberry 
 
 ```docker run --name monitorix --net host -e MONITORIX_PORT=8080 -d jpdus/rpi-monitorix```
 
-Afterwards just visit http://yourip:8080/monitorix for statistics.
+Afterwards just visit *http://yourip:8080/monitorix* for statistics.
 
 
 Instead of --net host you can also map a port:
