@@ -17,3 +17,4 @@ RUN chmod +x /launch.sh
 
 ENTRYPOINT /launch.sh
 
+CMD ["bash"]
