@@ -1,15 +1,25 @@
 Monitorix in docker for Raspberry Pi
 ===================
+Monitorix is a free, open source, lightweight system monitoring tool designed to monitor as many services and system resources as possible.
 
-Two ways to run, with *--net host* or without.
+This container enables you to start a monitoring webinterface on your Raspberry Pi in seconds without any configuration.
 
-```docker run -it -p 8080:8080 monitorix```
+*Quickstart:*
 
-```docker run -it --net host monitorix```
+```docker pull jpdus/rpi-monitorix```
 
-You may also pass a different port to the container using
+```docker run --name monitorix --net host -e MONITORIX_PORT=8080 -d jpdus/rpi-monitorix```
 
-```docker run -it --net host -e MONITORIX_PORT=1234 monitorix```
+Afterwards just visit http://yourip:8080/monitorix for statistics.
+
+
+Instead of --net host you can also map a port:
+
+```docker run --name monitorix -p 8080:8080 -d jpdus/rpi-monitorix```
+
+
+More information on Monitorix:
+http://www.monitorix.org/
 
 Based on:
 https://github.com/yofreke/docker-monitorix
