@@ -5,5 +5,3 @@ if [ ! -z "$MONITORIX_PORT" ]; then
   sed -i -e "s/port = 8080/port = $MONITORIX_PORT/g" $MONITORIX_CONF
   sed -i -e "s/:8080/:$MONITORIX_PORT/g" $MONITORIX_CONF
 fi
-
-service monitorix restart
