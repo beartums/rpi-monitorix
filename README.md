@@ -1,4 +1,4 @@
-monitorix in docker
+Monitorix in docker for Raspberry Pi
 ===================
 
 Two ways to run, with *--net host* or without.
@@ -11,3 +11,5 @@ You may also pass a different port to the container using
 
 ```docker run -it --net host -e MONITORIX_PORT=1234 monitorix```
 
+Based on:
+https://github.com/yofreke/docker-monitorix
