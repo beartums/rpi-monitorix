@@ -8,7 +8,7 @@ RUN apt-get install -yq rrdtool perl libwww-perl libmailtools-perl libmime-lite-
 
 # Download the deb
 RUN apt-get install -y wget nano
-RUN wget http://www.monitorix.org/monitorix_3.6.0-izzy1_all.deb && \
+RUN wget http://www.monitorix.org/monitorix_3.7.0-izzy1_all.deb && \
     dpkg -i monitorix*.deb
 
 # Add the launch script
