@@ -10,7 +10,9 @@ Monitorix is a free, open source, lightweight system monitoring tool designed to
 
 ```docker run --name monitorix --net host -e MONITORIX_PORT=8080 -d jpdus/rpi-monitorix```
 
-Afterwards just visit *http://yourip:8080/monitorix* for statistics.
+Afterwards just visit 
+*http://yourip:8080/monitorix*
+for statistics.
 
 ## Source
 
@@ -25,8 +27,7 @@ Instead of --net host you can also map a port:
 ```docker run --name monitorix -p 8080:8080 -d jpdus/rpi-monitorix```
 
 
-More information on Monitorix:
-(http://www.monitorix.org/)
+More information on [Monitorix](http://www.monitorix.org/).
 
 Based on:
-(https://github.com/yofreke/docker-monitorix)
+[docker-monitorix](https://github.com/yofreke/docker-monitorix)
