@@ -7,6 +7,3 @@ if [ ! -z "$MONITORIX_PORT" ]; then
 fi
 
 service monitorix restart
-
-# Keep the container running
-bash
