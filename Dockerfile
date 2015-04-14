@@ -15,6 +15,8 @@ RUN wget http://www.monitorix.org/monitorix_3.7.0-izzy1_all.deb && \
 ADD launch.sh /launch.sh
 RUN chmod +x /launch.sh
 
+# Run launch script to modify port
 CMD sh /launch.sh
 
+# Restart monitorix service and read logs to be able to run the container in background
 CMD service monitorix restart && tail -F /var/log/monitorix
