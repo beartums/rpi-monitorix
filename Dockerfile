@@ -15,6 +15,6 @@ RUN wget http://www.monitorix.org/monitorix_3.7.0-izzy1_all.deb && \
 ADD launch.sh /launch.sh
 RUN chmod +x /launch.sh
 
-ENTRYPOINT /launch.sh
+CMD sh /launch.sh
 
 CMD service monitorix restart && tail -F /var/log/monitorix
