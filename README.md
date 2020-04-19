@@ -8,9 +8,9 @@ Monitorix is a free, open source, lightweight system monitoring tool designed to
 
 ## Quickstart
 
-```docker pull jpdus/rpi-monitorix```
+```docker pull beartums/rpi-monitorix```
 
-```docker run --name monitorix --net host -e MONITORIX_PORT=8080 -d jpdus/rpi-monitorix```
+```docker run --name monitorix -p 8080:8080 --device=/dev/vchiq -d beartums/rpi-monitorix```
 
 Afterwards just visit 
 *http://yourip:8080/monitorix*
@@ -20,13 +20,26 @@ for statistics.
 
 - *[Dockerfile](https://github.com/jpdus/rpi-monitorix/blob/master/Dockerfile)*
 
-- *[Source Repo](https://github.com/jpdus/rpi-monitorix)*
+- *[Source Repo](https://github.com/beartums/rpi-monitorix)*
 
-## Other
+## docker-compose
 
-Instead of --net host you can also map a port:
-
-```docker run --name monitorix -p 8080:8080 -d jpdus/rpi-monitorix```
+```
+version: "2"
+services:
+  monitorix:
+    image: beartums/rpi-monitorix
+    container_name: monitorix
+    devices:
+      - /dev/vchiq:/dev/vchiq
+    ports:
+      - 8080:8080
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - <path_to_custom_monitoris.conf_file>:/etc/monitorix/conf.d
+    restart: unless-stopped
+```
 
 
 More information on [Monitorix](http://www.monitorix.org/).
