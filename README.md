@@ -2,6 +2,8 @@
 
 Monitorix is a free, open source, lightweight system monitoring tool designed to monitor as many services and system resources as possible.
 
+*Based on the project by jpdus/monitorix-rpi*
+
 *This container enables you to start a monitoring webinterface on your Raspberry Pi in seconds without any configuration.*
 
 ## Quickstart
