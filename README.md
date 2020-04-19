@@ -45,4 +45,7 @@ services:
 More information on [Monitorix](http://www.monitorix.org/).
 
 Based on:
+[rpi-monitorix](https://github.com/jpdus/rpi-monitorix)
+
+Which, in turn, is based on:
 [docker-monitorix](https://github.com/yofreke/docker-monitorix)

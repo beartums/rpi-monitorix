@@ -14,6 +14,9 @@ RUN wget https://www.monitorix.org/monitorix_3.12.0-izzy1_all.deb && \
     dpkg -i monitorix*.deb && \
     rm monitorix_3.12.0-izzy1_all.deb
 
+# Add the default overrides file
+ADD monitorix.conf /etc/monitorix/conf.d
+
 # Add the launch script
 ADD launch.sh /launch.sh
 RUN chmod +x /launch.sh
