@@ -33,7 +33,7 @@ fi
 
 if [ ! -z "$LOGO_TOP_URL" ]; then
   MONITORIX_CONF="/etc/monitorix/monitorix.conf"
-  sed -i -e "s/logo_top_url = http:\/\/www.monitorix.org\//logo_top_url = $LOGO_TOP_URL/g" $MONITORIX_CONF
+  sed -i -e "s:logo_top_url = http://www.monitorix.org/:logo_top_url = $LOGO_TOP_URL:g" $MONITORIX_CONF
 fi
 
 if [ ! -z "$FAVICON" ]; then

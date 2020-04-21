@@ -15,10 +15,10 @@ RUN wget https://www.monitorix.org/monitorix_3.12.0-izzy1_all.deb && \
     rm monitorix_3.12.0-izzy1_all.deb
 
 # Add the default overrides file
-ADD monitorix.conf /etc/monitorix/conf.d
+COPY monitorix.conf /etc/monitorix/
 
 # Add the launch script
-ADD launch.sh /launch.sh
+COPY launch.sh /launch.sh
 RUN chmod +x /launch.sh
 
 # Restart monitorix service and read logs to be able to run the container in background
