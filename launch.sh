@@ -1,13 +1,15 @@
 #!/bin/bash
- MONITORIX_CONF="/etc/monitorix/monitorix.conf"
+if [ -z "$MONITORIX_CONF" ]; then
+  MONITORIX_CONF="/etc/monitorix/monitorix.conf"
+fi
 
 if [ ! -z "$MONITORIX_PORT" ]; then
   sed -i -e "s/port = 8080/port = $MONITORIX_PORT/g" $MONITORIX_CONF
   sed -i -e "s/:8080/:$MONITORIX_PORT/g" $MONITORIX_CONF
 fi
 
-if [ ! -z "$HOSTNAME" ]; then
-  sed -i -e "1,/<graph_enable>/{s/\(\s*\)\(hostname\s*=\s*.*\)$/\1hostname = $HOSTNAME/g}" $MONITORIX_CONF
+if [ ! -z "$MONITORIX_HOSTNAME" ]; then
+  sed -i -e "1,/<graph_enable>/{s/\(\s*\)\(hostname\s*=\s*.*\)$/\1hostname = $MONITORIX_HOSTNAME/g}" $MONITORIX_CONF
 fi
 
 if [ ! -z "$TITLE" ]; then
@@ -35,25 +37,25 @@ if [ ! -z "$FAVICON" ]; then
 fi
 
 # copy the assets in the assets folder to the www folder, if any
-cp /assets/* /var/lib/monitorix/www/
+[ -d "/assets/" ] && cp /assets/* /var/lib/monitorix/www/
 
 if [ ! -z "$ENABLED_GRAPHS" ]; then
-  IFS=',' read -ra GRAPHS <<< "$ENABLED_GRAPHS"
+  IFS=',' read -r -a GRAPHS <<< "$ENABLED_GRAPHS"
   START='<graph_enable>'
-  END='</graph_enable>'
+  END='<\/graph_enable>'
   FIND='n'
   REPLACE='y'
   for GRAPH in "${GRAPHS[@]}"
   do
     echo $GRAPH
-    sed -i -e "/$START/,/$END/{s/\(\s*$GRAPH\s*=\s*\)[\s$FIND]*$/\1$REPLACE/g}" $MONITORIX_CONF
+    sed -i "/$START/,/$END/{s/\(\s*$GRAPH\s*=\s*\)[\s$FIND]*$/\1$REPLACE/g}" $MONITORIX_CONF
   done
 fi
 
 if [ ! -z "$DISABLED_GRAPHS" ]; then
-  IFS=',' read -ra GRAPHS <<< "$DISABLED_GRAPHS"
+  IFS=',' read -r -a GRAPHS <<< "$DISABLED_GRAPHS"
   START='<graph_enable>'
-  END='</graph_enable>'
+  END='<\/graph_enable>'
   FIND='y'
   REPLACE='n'
   for GRAPH in "${GRAPHS[@]}"
