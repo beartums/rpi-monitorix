@@ -1,6 +1,11 @@
 #!/bin/bash
+echo "START"
 if [ -z "$MONITORIX_CONF" ]; then
   MONITORIX_CONF="/etc/monitorix/monitorix.conf"
+fi
+
+if [ -z "$HTTPD_GROUP" ]; then
+  HTTPD_GROUP="www-data"
 fi
 
 if [ ! -z "$MONITORIX_PORT" ]; then
@@ -8,16 +13,26 @@ if [ ! -z "$MONITORIX_PORT" ]; then
   sed -i -e "s/:8080/:$MONITORIX_PORT/g" $MONITORIX_CONF
 fi
 
+sed -i -e "/<httpd_builtin>/,/<\/httpd_builtin>/{s/\(\s*\)group\s*=[\s.]*$/\1group = $HTTPD_GROUP/g}" $MONITORIX_CONF
+
 if [ ! -z "$MONITORIX_HOSTNAME" ]; then
   sed -i -e "1,/<graph_enable>/{s/\(\s*\)\(hostname\s*=\s*.*\)$/\1hostname = $MONITORIX_HOSTNAME/g}" $MONITORIX_CONF
 fi
 
 if [ ! -z "$TITLE" ]; then
-  sed -i -e "1,/<graph_enable>/{s/\(\s*\)\(title\s*=\s*.*\)$/\title = $TITLE/g}" $MONITORIX_CONF
+  sed -i -e "1,/<graph_enable>/{s/\(\s*\)\(title\s*=\s*.*\)$/\1title = $TITLE/g}" $MONITORIX_CONF
 fi
 
 if [ ! -z "$REFRESH_RATE" ]; then
   sed -i -e "s/refresh_rate = 150/refresh_rate = $REFRESH_RATE/g" $MONITORIX_CONF
+fi
+
+if [ ! -z "$TEMPERATURE_SCALE" ]; then
+  sed -i -e "s/temperature_scale = .*$/temperature_scale = $TEMPERATURE_SCALE/g" $MONITORIX_CONF
+fi
+
+if [ ! -z "$GRAPHS" ]; then
+  sed -i -e "s/.*graph_name\s*=.*$/graph_name = $GRAPHS/g" $MONITORIX_CONF
 fi
 
 if [ ! -z "$LOGO_TOP" ]; then
@@ -39,28 +54,18 @@ fi
 # copy the assets in the assets folder to the www folder, if any
 [ -d "/assets/" ] && cp /assets/* /var/lib/monitorix/www/
 
-if [ ! -z "$ENABLED_GRAPHS" ]; then
-  IFS=',' read -r -a GRAPHS <<< "$ENABLED_GRAPHS"
+echo "BEFORE GRAPHS"
+if [ ! -z "$GRAPHS" ]; then
   START='<graph_enable>'
   END='<\/graph_enable>'
-  FIND='n'
   REPLACE='y'
-  for GRAPH in "${GRAPHS[@]}"
+echo "\tENABLED GRAPHS"
+# if a list of specified graphs is passed, first set all graphs off (only turn on specified graphs)
+  sed -i "/$START/,/$END/{s/\([\s.]*=\).*$/\1 n/g}" $MONITORIX_CONF
+# then enable all the selected graphs
+  for GRAPH in $(echo $GRAPHS | sed "s/,/ /g")
   do
-    echo $GRAPH
-    sed -i "/$START/,/$END/{s/\(\s*$GRAPH\s*=\s*\)[\s$FIND]*$/\1$REPLACE/g}" $MONITORIX_CONF
-  done
-fi
-
-if [ ! -z "$DISABLED_GRAPHS" ]; then
-  IFS=',' read -r -a GRAPHS <<< "$DISABLED_GRAPHS"
-  START='<graph_enable>'
-  END='<\/graph_enable>'
-  FIND='y'
-  REPLACE='n'
-  for GRAPH in "${GRAPHS[@]}"
-  do
-    echo $GRAPH
-    sed -i "/$START/,/$END/{s/\(\s*$GRAPH\s*=\s*\)[\s$FIND]*$/\1$REPLACE/g}" $MONITORIX_CONF
+    echo "\t\t$GRAPH"
+    sed -i "/$START/,/$END/{s/\(\s*$GRAPH\s*=\s*\).*$/\1$REPLACE/g}" $MONITORIX_CONF
   done
 fi
